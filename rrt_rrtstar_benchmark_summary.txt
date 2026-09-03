@@ -1,0 +1,46 @@
+================================================================
+RRT vs RRT* BENCHMARK
+================================================================
+
+Trials:                       50
+
+Success Rate
+RRT:                          100.0 %
+RRT*:                         100.0 %
+
+Comparable Successful Runs:  50 / 50
+
+Path Cost
+RRT Mean:                     218.28
+RRT Median:                   214.58
+RRT* Mean:                    176.91
+RRT* Median:                  174.15
+
+RRT* vs RRT
+Mean Improvement:             18.79 %
+Median Improvement:           18.50 %
+RRT* Better:                  50 / 50
+RRT Better:                   0 / 50
+Tied:                         0 / 50
+
+RRT* Internal Optimization
+Mean:                         0.80 %
+Median:                       0.18 %
+
+Runtime
+RRT Mean:                     0.273 sec
+RRT* Mean:                    0.479 sec
+
+================================================================
+MULTI-SEED BENCHMARK RESULT
+
+Trials: 50
+Comparable Trials: 50
+RRT Success: 100.0%
+RRT* Success: 100.0%
+RRT Mean Cost: 218.28
+RRT* Mean Cost: 176.91
+Median Improvement: 18.50%
+RRT* Better Count: 50
+Runtime comparison: RRT 0.273s vs RRT* 0.479s
+================================================================
