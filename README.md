@@ -17,6 +17,47 @@ Interactive 3D implementation and comparison of RRT and RRT* in Python, featurin
 - Multi-seed benchmarking
 - Presentation and export modes for visualization
 
+## Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/yusufkarakus1997/rrt-rrtstar-3d.git
+cd rrt-rrtstar-3d
+
+# Install requirements
+pip install numpy matplotlib
+```
+
+*(Note: `ffmpeg` is required as an optional system dependency if you want to use the `--record-demo` flag to export video animations.)*
+
+## Quick Start
+
+You can run the interactive 3D visualizer or the headless test suites using the CLI.
+
+```bash
+# Run standard interactive mode (random seed)
+python rrt_star_3d.py
+
+# Run a specific seed for reproducible results
+python rrt_star_3d.py --seed 10
+
+# Run in presentation mode (16:9 layout, optimized for screenshots)
+python rrt_star_3d.py --presentation --seed 10 --auto-start
+
+# Automatically run, skip GUI interactions, and export final frame to PNG
+python rrt_star_3d.py --presentation --seed 10 --auto-start --demo-speed 50 --export-final
+
+# Run automated algorithmic validations (headless)
+python rrt_star_3d.py --test
+python rrt_star_3d.py --test-multi-seed
+
+# Search for seeds that produce highly visible RRT* rewiring behaviors
+python rrt_star_3d.py --find-demo-seeds
+
+# Run 100-seed headless benchmark and export statistics and charts
+python rrt_star_3d.py --benchmark --benchmark-seeds 100
+```
+
 ## Representative Demo — Seed 10
 
 Seed 10 was selected because it clearly visualizes post-solution RRT* convergence.
@@ -27,7 +68,8 @@ Seed 10 was selected because it clearly visualizes post-solution RRT* convergenc
 | First Solution Cost | 259.72 | 210.11 |
 | Rewirings | 0 | 417 |
 | Improvement Events | 0 | 6 |
-| Best Solution Iteration | 2335 | 2335 |
+| First Solution Iteration | 445 | 445 |
+| Best Solution Iteration | 445 | 2335 |
 
 *RRT\* achieved a 26.76% lower raw path cost than RRT in this representative run.*
 
@@ -140,3 +182,36 @@ To run the validations locally:
 python rrt_star_3d.py --test
 python rrt_star_3d.py --test-multi-seed
 ```
+
+## Project Structure
+
+```text
+.
+├── rrt_star_3d.py                     # Main RRT/RRT* core implementation and visualizer
+├── legacy/                            # Contains an earlier prototype (not the current implementation)
+│   └── RRT_algorithm.py               
+├── README.md                          # Project documentation
+├── rrt_rrtstar_benchmark_100.csv      # Raw result data for the 100-seed benchmark
+├── rrt_rrtstar_benchmark_summary.txt  # Human-readable summary of the 100-seed benchmark
+├── benchmark_path_cost.png            # Benchmark visualization (Cost)
+├── benchmark_improvement.png          # Benchmark visualization (Improvement)
+├── benchmark_runtime.png              # Benchmark visualization (Runtime)
+└── rrt_rrtstar_seed10_final.png       # 16:9 Presentation mode hero frame
+```
+
+## Limitations
+
+- Collision detection uses discretized edge sampling rather than exact continuous collision detection.
+- Obstacles are restricted to axis-aligned cuboids.
+- Nearest-neighbor searches use standard NumPy vectorized arrays rather than specialized spatial indices like KD-trees.
+- Benchmark results (19% improvement, ~0.48s runtime) are specific to this environment density and parameter configuration.
+- This is a standalone mathematical visualization tool, not a full ROS 2 navigation stack.
+
+## Future Work
+
+- **Informed RRT***: Constraining the sampling space to a hyperellipsoid once an initial solution is found to accelerate convergence.
+- **Bi-RRT / RRT-Connect**: Bi-directional tree expansion from both Start and Goal.
+- **KD-Tree Acceleration**: For faster nearest-neighbor and near-nodes lookups in environments requiring high node counts.
+- **Dynamic Obstacles**: Real-time replanning / RRTX adaptations.
+- **ROS 2 Integration**: Packaging the core planner as a ROS 2 lifecycle node.
+- **Kinematic Constraints**: Extending the configuration space to handle specific robot chassis (e.g. Ackermann steering).
